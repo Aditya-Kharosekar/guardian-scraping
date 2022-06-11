@@ -67,6 +67,4 @@ def create_article_dicts(articles: list) -> list:
         dict_list.append(current_dict)
     
     return dict_list
-
-def test_func():
-    return 5
+    
