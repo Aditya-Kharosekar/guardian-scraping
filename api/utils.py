@@ -31,7 +31,7 @@ def perform_query(base_url: str, params: dict) -> list:
     assert response.status_code == 200
 
     results = response.json()['response']['results']
-    is_not_liveblog_mask = [r['type'] != 'liveblog' for r in results] #liveblogs are fundamentally different from normal articles
+    is_not_liveblog_mask = [r['type'] != 'liveblog' for r in results]
     articles = list(compress(results, is_not_liveblog_mask))
     return articles
 
@@ -53,7 +53,7 @@ def create_article_dicts(articles: list) -> list:
         current_dict = {}
 
         #would ideally like to parametrize the keys that I'm extracting but not sure how to programmatically handle nested keys
-        current_dict['id'] = article['id']
+        current_dict['id'] = article['id'] #TODO: need to hash this for easier storage and retrieval. Is currently a string like 'football/2022/may/30/lgbtq-football-fans-share-your-experiences-of-watching-or-playing-football'
         current_dict['sectionName'] = article['sectionName']
         current_dict['webTitle'] = article['webTitle']
         current_dict['webUrl'] = article['webUrl']
