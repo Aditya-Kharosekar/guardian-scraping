@@ -4,6 +4,7 @@ import numpy as np
 import config
 from itertools import compress
 import requests
+import logging
 
 json_fields = [ #this does not contain any nested fields I want
     'id',
@@ -11,6 +12,8 @@ json_fields = [ #this does not contain any nested fields I want
     'webPublicationDate',
     'webTitle'
 ]
+
+logging.basicConfig(level=logging.INFO)
 
 def perform_query(base_url: str, params: dict) -> list:
     """Performs the query to the API and returns a list containing the JSON for all non-liveblog articles. Liveblogs are excluded because the
@@ -46,7 +49,8 @@ def create_article_dicts(articles: list) -> list:
         list: list of dictionaries. Each element in list contains information about one article. Will be used to create dataframe later
     """
     if not articles:
-        return None #TODO: Add logging here instead
+        logging.info('No articles in this batch')
+        return None
     
     dict_list = []
     for article in articles:
@@ -63,3 +67,6 @@ def create_article_dicts(articles: list) -> list:
         dict_list.append(current_dict)
     
     return dict_list
+
+def test_func():
+    return 5
