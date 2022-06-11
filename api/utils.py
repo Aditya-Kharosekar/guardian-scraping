@@ -57,7 +57,7 @@ def create_article_dicts(articles: list) -> list:
         current_dict = {}
 
         #would ideally like to parametrize the keys that I'm extracting but not sure how to programmatically handle nested keys
-        current_dict['id'] = article['id'] #TODO: need to hash this for easier storage and retrieval. Is currently a string like 'football/2022/may/30/lgbtq-football-fans-share-your-experiences-of-watching-or-playing-football'
+        current_dict['id'] = article['id']
         current_dict['sectionName'] = article['sectionName']
         current_dict['webTitle'] = article['webTitle']
         current_dict['webUrl'] = article['webUrl']
@@ -67,4 +67,3 @@ def create_article_dicts(articles: list) -> list:
         dict_list.append(current_dict)
     
     return dict_list
-    
