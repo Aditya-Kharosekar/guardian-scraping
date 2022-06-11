@@ -5,14 +5,6 @@ import config
 from itertools import compress
 import requests
 import logging
-
-json_fields = [ #this does not contain any nested fields I want
-    'id',
-    'sectionName',
-    'webPublicationDate',
-    'webTitle'
-]
-
 logging.basicConfig(level=logging.INFO)
 
 def perform_query(base_url: str, params: dict) -> list:
