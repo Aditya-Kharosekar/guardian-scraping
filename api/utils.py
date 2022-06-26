@@ -23,12 +23,18 @@ def perform_query(base_url: str, params: dict) -> list:
         url=base_url,
         params = params
     )
-    assert response.status_code == 200
+    try:
+        assert response.status_code == 200
 
-    results = response.json()['response']['results']
-    is_not_liveblog_mask = [r['type'] != 'liveblog' for r in results]
-    articles = list(compress(results, is_not_liveblog_mask))
-    return articles
+        results = response.json()['response']['results']
+        is_not_liveblog_mask = [r['type'] != 'liveblog' for r in results]
+        articles = list(compress(results, is_not_liveblog_mask))
+
+        return articles
+    except:
+        logging.info("Page number: ", params['page'] + "." + 
+        "API call did not return a status code of 200. Most probably, there are no more articles to gather" + 
+        "for the provided criteria")
 
 def create_article_dicts(articles: list) -> list:
     """For each article, extracts required key-value pairs from its JSON object, and stores them into a dict. 
@@ -42,7 +48,7 @@ def create_article_dicts(articles: list) -> list:
     """
     if not articles:
         logging.info('No articles in this batch')
-        return None
+        return []
     
     dict_list = []
     for article in articles:
