@@ -65,4 +65,12 @@ def store_scraping_results(articles: list, start_date: str, to_date: str):
 #TODO: wrapper function that calls scrape(), flatten_dict_list(), and store_scraping_results() in a loop. Each iteration of the loop will have different
 #values for from-date and to-date
 
+    """
+    For each month:
+        Create param values for from-date and to-date
+        scrape()
+        flatten_dict_list()
+        store_scraping_results()
+    """
+
 #TODO: function to combine all pickled dataframes into one dataframe.
