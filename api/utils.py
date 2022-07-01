@@ -2,13 +2,17 @@ import pandas as pd
 import numpy as np
 
 import config
+from datetime import datetime
+import dateutil.relativedelta
 from itertools import compress
 import requests
 import logging
 logging.basicConfig(level=logging.INFO)
 
 def perform_query(base_url: str, params: dict) -> list:
-    """Performs the query to the API and returns a list containing the JSON for all non-liveblog articles. Liveblogs are excluded because the
+    """
+    Basically does one API call.
+    Performs the query to the API and returns a list containing the JSON for all non-liveblog articles. Liveblogs are excluded because the
     are fundamentally different from normal news articles and because their body is harder to parse
 
     Args:
@@ -65,3 +69,27 @@ def create_article_dicts(articles: list) -> list:
         dict_list.append(current_dict)
     
     return dict_list
+
+def get_end_of_current_month(current_date: datetime.date) -> datetime.date:
+    """Used when specifying from-date and to-date. Returns a datetime.date object for the last day of the specified month
+
+    Args:
+        current_month (datetime.date):
+    """
+    return (current_date.replace(day=1) + dateutil.relativedelta.relativedelta(months=+1, seconds=-1)).date()
+
+def get_start_of_next_month(current_date: datetime.date) -> datetime.date:
+    """Used when specifying from-date and to-date. Returns a datetime.date object for the first day of the next month
+
+    Args:
+        current_month (datetime.date): 
+    """
+    return current_date.replace(day=1) + dateutil.relativedelta.relativedelta(months=+1)
+
+def convert_datetime_to_string_yyyymmdd(current_date: datetime.date) -> str:
+    """Returns the current_date in YYYY-MM-DD string format
+
+    Args:
+        current_date (datetime.date):
+    """
+    return current_date.strftime('%Y-%m-%d')
