@@ -31,7 +31,9 @@ def perform_query(base_url: str, params: dict) -> list:
         assert response.status_code == 200
 
         results = response.json()['response']['results']
-        is_not_liveblog_mask = [r['type'] != 'liveblog' for r in results]
+
+        to_be_removed = ['liveblog', 'crossword']
+        is_not_liveblog_mask = [r['type'] not in to_be_removed for r in results]
         articles = list(compress(results, is_not_liveblog_mask))
 
         return articles
@@ -58,15 +60,19 @@ def create_article_dicts(articles: list) -> list:
     for article in articles:
         current_dict = {}
 
-        #would ideally like to parametrize the keys that I'm extracting but not sure how to programmatically handle nested keys
-        current_dict['id'] = article['id']
-        current_dict['sectionName'] = article['sectionName']
-        current_dict['webTitle'] = article['webTitle']
-        current_dict['webUrl'] = article['webUrl']
-        current_dict['bodyContent'] = article['blocks']['body'][0]['bodyTextSummary']
-        current_dict['webPublicationDate'] = article['webPublicationDate']
+        try:
+
+            #would ideally like to parametrize the keys that I'm extracting but not sure how to programmatically handle nested keys
+            current_dict['id'] = article['id']
+            current_dict['sectionName'] = article['sectionName']
+            current_dict['webTitle'] = article['webTitle']
+            current_dict['webUrl'] = article['webUrl']
+            current_dict['bodyContent'] = article['blocks']['body'][0]['bodyTextSummary']
+            current_dict['webPublicationDate'] = article['webPublicationDate']
         
-        dict_list.append(current_dict)
+            dict_list.append(current_dict)
+        except:
+            print(article)
     
     return dict_list
 

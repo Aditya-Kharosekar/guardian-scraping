@@ -82,7 +82,8 @@ def scrape(starting_month: str, ending_month: str, articles_per_month: int, base
     starting_month_dt = datetime.fromisoformat(starting_month + "-01").date()
     ending_month_dt = datetime.fromisoformat(ending_month + "-01").date()
 
-    num_of_months = dateutil.relativedelta.relativedelta(ending_month_dt, starting_month_dt).months
+    difference = dateutil.relativedelta.relativedelta(ending_month_dt, starting_month_dt)
+    num_of_months = (difference.years * 12) + difference.months
     
     start_of_range = starting_month_dt
     for m in np.arange(num_of_months):
